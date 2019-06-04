@@ -14,7 +14,7 @@ export = () => {
 
     app.all("/api/*", (req: any, res: any, next: any) => {
         if (req.path.includes("/api/login")) return next();
-
+        console.log('authenticate');
         return auth.authenticate((err: any, user: any, info: any) => {
             if (err) { return next(err); }
             if (!user) {

@@ -33,7 +33,10 @@ class UserController {
         // try {
             this.validateRequest(req);
             let newUser = await repository.create(req.body.username, req.body.password);
-            res.status(201).json(newUser);
+            if(newUser === null) {
+                res.status(500).json({'error': 'error creating user'});
+            }
+            res.status(201).json({'message': 'created new user. id: ' + newUser.id + ', username: ' + newUser.username});
         // } catch (err) {
         //     res.status(400).json({ "message": "Missing parameters", errors: err });
         // }

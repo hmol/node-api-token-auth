@@ -17,15 +17,15 @@ export default class User {
         });
     };
 
-    constructor(username: string, password: string, id: string) {
+    constructor(username: string, password: string, id: string = '') {
         this.username = username;
         this.password = password;
         this.id = id;
     }
 
-    static async create(username: string, password: string): Promise<User> {
+    static async create(username: string, password: string, id: string = ''): Promise<User> {
         let hashedPassword = await this.hashPassword(password);
-        return new User(username, hashedPassword, shortid.generate());
+        return new User(username, hashedPassword, id);
     }
 
     static async hashPassword(password: string): Promise<string> {
