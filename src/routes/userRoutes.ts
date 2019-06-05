@@ -1,10 +1,8 @@
 import UserController from "../controllers/userController";
 
 export = (app: any) => {
-
-    const endpoint = "/api/users";
-    app.post(endpoint, UserController.create);
-    app.delete(endpoint + "/:id", UserController.delete);
-    app.get(endpoint + "/:id", UserController.getOne);
-    app.put(endpoint + "/:id", UserController.update);
+    app.post("/api/users", UserController.create);
+    app.delete("/api/users/:id", UserController.delete);
+    app.get("/api/users/:id", UserController.getOne);
+    app.put("/api/users/:id", UserController.update);
 };
