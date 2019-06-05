@@ -5,11 +5,17 @@ const firestore = new Firestore();
 const collection = firestore.collection('users');
 
 export default class Repository {
-    static delete(id: any): Promise<boolean> {
-        throw new Error("Method not implemented.");
+
+    static delete(id: any): void {
+        collection.doc(id).delete();
     }
-    static update(id: any, body: any): Promise<User>  {
-        throw new Error("Method not implemented.");
+
+    static async update(id: string, username: string, password: string): Promise<User>  {
+        var docRef = collection.doc(id);
+        var updateObject = await User.create(username, password);
+        var data = { 'username': updateObject.username, 'password': updateObject.password };
+        docRef.update(data);
+        return await this.get(id);
     }
 
     static async create(username: string, password: string): Promise<User>  {
@@ -61,9 +67,5 @@ export default class Repository {
             let user = new User(data.username, data.password, ref.id);
             return user;
         });
-    }
-
-    static getAll(): Promise<User[]>  {
-        throw new Error("Method not implemented.");
     }
 }
