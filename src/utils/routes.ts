@@ -1,4 +1,4 @@
-import UserController from "../controllers/userController";
+import UserController from '../controllers/userController';
 import AuthController from '../controllers/authController';
 
 export = (app: any) => {
