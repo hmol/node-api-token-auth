@@ -1,25 +1,23 @@
 import * as bcrypt from "bcryptjs";
-import * as shortid from "shortid";
-// const shortid = require('shortid');
 
 export default class User {
     id: string = '';
     username: string = '';
-    password: string = '';
+    hashedPassword: string = '';
     
-    public async comparePassword(candidatePassword: string): Promise<boolean> {
-        let password = this.password;
+    public async comparePassword(inputPassword: string): Promise<boolean> {
+        let hashedPassword = this.hashedPassword;
         return new Promise((resolve, reject) => {
-            bcrypt.compare(candidatePassword, password, (err, success) => {
+            bcrypt.compare(inputPassword, hashedPassword, (err, success) => {
                 if (err) return reject(err);
                 return resolve(success);
             });
         });
     };
 
-    constructor(username: string, password: string, id: string = '') {
+    constructor(username: string, hashedPassword: string, id: string = '') {
         this.username = username;
-        this.password = password;
+        this.hashedPassword = hashedPassword;
         this.id = id;
     }
 

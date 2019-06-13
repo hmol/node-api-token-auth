@@ -13,7 +13,7 @@ export default class Repository {
     static async update(id: string, username: string, password: string): Promise<User>  {
         var docRef = collection.doc(id);
         var updateObject = await User.create(username, password);
-        var data = { 'username': updateObject.username, 'password': updateObject.password };
+        var data = { 'username': updateObject.username, 'password': updateObject.hashedPassword };
         docRef.update(data);
         return await this.get(id);
     }
@@ -25,13 +25,12 @@ export default class Repository {
                     let newUser = await User.create(username, password);
                     var data = {
                         username: newUser.username,
-                        password: newUser.password
-                    } as User;
+                        password: newUser.hashedPassword
+                    };
                     
                     let ref = collection.doc();
-                    ref.set(data) as User;
-                    newUser.id = ref.id;
-                    return newUser;       
+                    ref.set(data);
+                    return await this.get(ref.id);
                 }
                 return null;
             });
@@ -41,16 +40,13 @@ export default class Repository {
         if(!id) {
             throw new Error("Id is empty");
         }
-        console.log("getbyid: " + id);
         let query = collection.doc(id);
         return query.get().then((ref: any) => {
             if (!ref.exists) {
                 throw new Error("No use found with id: " + id);
             }
             let data = ref.data();
-            let user = new User(data.username, data.password, ref.id);
-            console.log(user);
-            return user;
+            return this.toUserObject(data, ref.id);
         });
     }
 
@@ -60,12 +56,13 @@ export default class Repository {
             if(snapshot.docs.length === 0) {
                 return null;
             }
-            console.log('getByUsername');
-            console.log(snapshot.docs[0].data());
             let ref = snapshot.docs[0];
             let data = ref.data();
-            let user = new User(data.username, data.password, ref.id);
-            return user;
+            return this.toUserObject(data, ref.id);
         });
+    }
+
+    static toUserObject(data: any, id: string) {
+        return new User(data.username, data.password, id);
     }
 }
