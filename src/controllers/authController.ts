@@ -4,10 +4,11 @@ const passport = require("passport");
 import moment from "moment";
 import User from '../models/user';
 import Repository from '../utils/repository';
-const jwtSecret = '^RJ3XFYv542jLL@jjG7Zxa1Ihe%9KmXiUEfOH$3iG8q*0f@J!r';
+
 
 class AuthController {
-
+    jwtSecret = '^RJ3XFYv542jLL@jjG7Zxa1Ihe%9KmXiUEfOH$3iG8q*0f@J!r';
+    
     public authenticate = (callback: any) => passport.authenticate("jwt", { session: false, failWithError: true }, callback);
 
     private getToken = (user: User): Object => {
@@ -15,7 +16,7 @@ class AuthController {
         let token = jwt.encode({
             exp: expires,
             userid: user.id
-        }, jwtSecret);
+        }, this.jwtSecret);
         
         return {
             token: "JWT " + token,

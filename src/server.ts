@@ -5,7 +5,6 @@ const passport = require("passport");
 import Repository from './utils/repository';
 import User from './models/user';
 import { Strategy, ExtractJwt } from 'passport-jwt';
-const jwtSecret = '^RJ3XFYv542jLL@jjG7Zxa1Ihe%9KmXiUEfOH$3iG8q*0f@J!r';
 
 let app = express();
 app.use(bodyParser.json());
@@ -31,9 +30,10 @@ const server = app.listen(3000, () => {
     console.log(`Server started on port 3000.`);
 });
 
+//get strategy for passport
 function getPassportStrategy(): Strategy {
     const params = {
-        secretOrKey: jwtSecret,
+        secretOrKey: auth.jwtSecret,
         jwtFromRequest: ExtractJwt.fromAuthHeader(),
         passReqToCallback: true
     };
