@@ -29,8 +29,7 @@ export default class Repository {
                     };
                     
                     let ref = collection.doc();
-                    ref.set(data);
-                    return await this.get(ref.id);
+                    return ref.set(data).then(async () => await this.get(ref.id));
                 }
                 return null;
             });
