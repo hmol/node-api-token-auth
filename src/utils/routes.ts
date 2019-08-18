@@ -1,13 +1,13 @@
-import UserController from '../controllers/userController';
-import AuthController from '../controllers/authController';
+import userController from '../controllers/userController';
+import authController from '../controllers/authController';
 
 export = (app: any) => {
-    app.post("/api/login", AuthController.login);
+    app.post("/api/login", authController.login);
 
-    app.post("/api/users", UserController.create);
-    app.delete("/api/users/:id", UserController.delete);
-    app.get("/api/users/:id", UserController.getOne);
-    app.put("/api/users/:id", UserController.update);
+    app.post("/api/users", userController.create);
+    app.delete("/api/users/:id", userController.delete);
+    app.get("/api/users/:id", userController.getOne);
+    app.put("/api/users/:id", userController.update);
 
     app.get("/api", (req: Request, res: any) => res.status(200).json({ message: "Hello world" }));
 

@@ -1,22 +1,21 @@
 import * as jwt from 'jwt-simple';
 import * as bcrypt from "bcryptjs";
-const passport = require("passport");
 import moment from "moment";
-import User from '../models/user';
-import Repository from '../utils/repository';
+import user from '../models/user';
+import repository from '../utils/repository';
+import passportHelper from '../utils/passportHelper';
 
-
-class AuthController {
-    jwtSecret = '^RJ3XFYv542jLL@jjG7Zxa1Ihe%9KmXiUEfOH$3iG8q*0f@J!r';
+class authController {
+    // random string used to genereate token
     
-    public authenticate = (callback: any) => passport.authenticate("jwt", { session: false, failWithError: true }, callback);
 
-    private getToken = (user: User): Object => {
+    // generate valid jwt token
+    private getToken = (user: user): Object => {
         let expires = moment().utc().add({ days: 7 }).unix();
         let token = jwt.encode({
             exp: expires,
             userid: user.id
-        }, this.jwtSecret);
+        }, passportHelper.jwtSecret);
         
         return {
             token: "JWT " + token,
@@ -25,8 +24,9 @@ class AuthController {
         };
     }
 
+    // if username/password is match, return valid jwt token
     public login = async (req: any, res: any) => {
-            let user = await Repository.getByUsername(req.body.username);
+            let user = await repository.getByUsername(req.body.username);
 
             if (user === null) {
                 res.status(500).json({'message': 'user could not log in'});
@@ -43,4 +43,4 @@ class AuthController {
     }
 }
 
-export default new AuthController();
+export default new authController();

@@ -1,6 +1,6 @@
 import repository from "../utils/repository";
 
-class UserController {
+class userController {
 
     public getOne = async (req: any, res: any) => {
         let user = await repository.get(req.params.id);
@@ -27,4 +27,4 @@ class UserController {
     }
 }
 
-export default new UserController();
+export default new userController();
