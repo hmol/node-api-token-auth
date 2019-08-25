@@ -1,13 +1,12 @@
 import * as jwt from 'jwt-simple';
 import * as bcrypt from "bcryptjs";
+import { Response, Request } from 'express';
 import moment from "moment";
 import user from '../models/user';
 import repository from '../utils/repository';
 import passportHelper from '../utils/passportHelper';
 
 class authController {
-    // random string used to genereate token
-    
 
     // generate valid jwt token
     private getToken = (user: user): Object => {
@@ -25,7 +24,7 @@ class authController {
     }
 
     // if username/password is match, return valid jwt token
-    public login = async (req: any, res: any) => {
+    public login = async (req: Request ,res: Response) => {
             let user = await repository.getByUsername(req.body.username);
 
             if (user === null) {

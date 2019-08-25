@@ -3,6 +3,7 @@ import user from '../models/user';
 const passport = require("passport");
 import { Strategy, ExtractJwt } from 'passport-jwt';
 
+
 class passportHelper {
 	jwtSecret = '^RJ3XFYv542jLL@jjG7Zxa1Ihe%9KmXiUEfOH$3iG8q*0f@J!r';
 

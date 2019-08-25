@@ -1,7 +1,8 @@
 import passportHelper from './utils/passportHelper';
 const bodyParser = require("body-parser");
-const express = require("express");
+import { NextFunction,Response, Request } from 'express';
 const passport = require("passport");
+const express = require("express");
 
 // setup express and passport
 let app = express();
@@ -10,7 +11,7 @@ app.use(passport.initialize());
 passportHelper.init();
 
 // run authenticate() for all routes except /api/login
-app.all("/api/*", (req: any, res: any, next: any) => {
+app.all("/api/*", (req: Request ,res:Response, next: NextFunction) => {
     if (req.path.includes("/api/login")) return next();
     return passportHelper.authenticate((err: any, user: any, info: any) => {
         if (err) { return next(err); }
